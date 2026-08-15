@@ -1,0 +1,12 @@
+# AlastreSystem - configuracion Apache
+
+# No listar el contenido de las carpetas
+Options -Indexes
+
+# Bloquear el acceso por HTTP a archivos sensibles o de configuracion
+<FilesMatch "^(\.env.*|\.gitignore|composer\.(json|lock)|README\.md|bootstrap\.php)$">
+    Require all denied
+</FilesMatch>
+
+# UTF-8 por defecto
+AddDefaultCharset UTF-8
