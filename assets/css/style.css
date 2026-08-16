@@ -184,3 +184,11 @@ code {
     padding: 0.1em 0.35em;
     border-radius: 2px;
 }
+
+.verificar {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--risk);
+}

@@ -119,7 +119,15 @@ $porAprobar = leads_en('40-por-aprobar');
                                 <span class="grav g-<?= h($hallazgo['gravedad']) ?>">
                                     <?= h($hallazgo['gravedad']) ?>
                                 </span>
-                                <?= h($hallazgo['citable']) ?>
+                                <span>
+                                    <?= h($hallazgo['citable']) ?>
+                                    <?php if (!empty($hallazgo['verificar'])): ?>
+                                        <strong class="verificar">
+                                            Búscalo en Google antes de citarlo: que Maps no
+                                            enlace una web no prueba que no exista.
+                                        </strong>
+                                    <?php endif; ?>
+                                </span>
                             </li>
                         <?php endforeach; ?>
                     </ul>

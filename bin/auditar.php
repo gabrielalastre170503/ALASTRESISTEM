@@ -43,8 +43,10 @@ foreach ($pendientes as $id) {
     $lead = json_decode((string) file_get_contents($reclamado), true, 512, JSON_THROW_ON_ERROR);
     echo "  · " . mb_substr($lead['nombre'], 0, 50) . "\n";
 
-    $lead['hallazgos'] = auditar($lead, $clavePsi);
-    $lead['auditado']  = date('c');
+    $mediciones = [];
+    $lead['hallazgos']  = auditar($lead, $clavePsi, $mediciones);
+    $lead['mediciones'] = $mediciones;
+    $lead['auditado']   = date('c');
 
     file_put_contents(
         $reclamado,
@@ -64,18 +66,44 @@ echo "Listo. Revisa: php bin/estado.php\n";
 // ---------------------------------------------------------------------------
 
 /**
+ * Devuelve los hallazgos y, por referencia, lo que se midio.
+ *
+ * Guardar las mediciones importa tanto como los hallazgos: sin ellas, "lo
+ * medimos y esta bien" y "no se pudo medir" se parecen demasiado — en los dos
+ * casos la lista de hallazgos sale vacia.
+ *
+ * @param array<string,mixed> $mediciones
  * @return list<array{codigo:string, gravedad:string, citable:string}>
  */
-function auditar(array $lead, ?string $clavePsi): array
+function auditar(array $lead, ?string $clavePsi, array &$mediciones = []): array
 {
     $hallazgos = [];
 
     if (empty($lead['web'])) {
-        $hallazgos[] = [
-            'codigo'   => 'sin_web',
-            'gravedad' => 'alta',
-            'citable'  => 'El negocio no tiene sitio web listado en su ficha de Google.',
-        ];
+        // Estar solo en un portal no es lo mismo que no estar: el negocio
+        // depende de la marca y las reglas de un tercero, y no aparece por si
+        // mismo en Google. Es un argumento distinto y mas facil de defender.
+        // Ojo: esto es ausencia de dato, no dato. Que Maps no enlace una web
+        // NO prueba que no exista — puede estar sin enlazar. Por eso van
+        // marcados con 'verificar': hay que buscar el nombre en Google antes
+        // de afirmar nada. Afirmar "no tiene web" a quien si la tiene hunde
+        // el mensaje en la primera frase.
+        if (($lead['web_tipo'] ?? 'ninguna') === 'directorio') {
+            $portal = $lead['web_cruda'] ?? 'un portal externo';
+            $hallazgos[] = [
+                'codigo'    => 'solo_directorio',
+                'gravedad'  => 'alta',
+                'verificar' => true,
+                'citable'   => "En su ficha de Google, el unico enlace web es {$portal}.",
+            ];
+        } else {
+            $hallazgos[] = [
+                'codigo'    => 'sin_web',
+                'gravedad'  => 'alta',
+                'verificar' => true,
+                'citable'   => 'Su ficha de Google no enlaza ningun sitio web.',
+            ];
+        }
 
         // Sin web no hay nada mas que medir, pero la ficha si dice cosas.
         return array_merge($hallazgos, auditar_ficha($lead));
@@ -83,6 +111,9 @@ function auditar(array $lead, ?string $clavePsi): array
 
     $url = $lead['web'];
     $res = http_get($url);
+
+    $mediciones['http_estado'] = $res['estado'];
+    $mediciones['accesible']   = $res['error'] === null && $res['estado'] < 400;
 
     if ($res['error'] !== null || $res['estado'] >= 400) {
         $hallazgos[] = [
@@ -99,6 +130,9 @@ function auditar(array $lead, ?string $clavePsi): array
     }
 
     $html = $res['cuerpo'];
+
+    $mediciones['https']    = str_starts_with(strtolower($url), 'https://');
+    $mediciones['viewport'] = (bool) preg_match('/<meta[^>]+name=["\']viewport["\']/i', $html);
 
     if (!str_starts_with(strtolower($url), 'https://')) {
         $hallazgos[] = [
@@ -134,6 +168,10 @@ function auditar(array $lead, ?string $clavePsi): array
 
     if ($clavePsi !== null) {
         $psi = medir_pagespeed($url, $clavePsi);
+
+        // null aqui significa "la medicion fallo", no "va rapido". Se anota
+        // para que despues se pueda distinguir una cosa de la otra.
+        $mediciones['psi_movil'] = $psi !== null ? (int) round($psi * 100) : null;
 
         if ($psi !== null) {
             $puntos = (int) round($psi * 100);
