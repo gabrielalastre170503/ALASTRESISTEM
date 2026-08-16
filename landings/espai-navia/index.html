@@ -57,10 +57,28 @@ a{color:inherit}
 img{max-width:100%;display:block}
 .env{width:100%;max-width:1200px;margin:0 auto;padding:0 24px}
 
-/* --- imagenes: fondo tintado para que no se vea roto si falta el archivo --- */
-.foto{position:relative;overflow:hidden;border-radius:var(--radio);background:linear-gradient(140deg,var(--violeta-claro),var(--salvia-claro));}
+/* --- imagenes ---
+   Si el archivo falta, el JS marca el contenedor con .sin-foto y retira el
+   <img>. Sin eso el navegador dibuja su icono de imagen rota y el texto
+   alternativo encima del degradado, que es justo lo que queremos evitar. */
+.foto{position:relative;overflow:hidden;border-radius:var(--radio);
+  background:linear-gradient(140deg,var(--violeta-claro),var(--salvia-claro))}
 .foto img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.16,1,.3,1)}
 .foto:hover img{transform:scale(1.04)}
+.foto.sin-foto img{display:none}
+.foto.sin-foto::before{
+  content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 28% 22%,color-mix(in srgb,var(--violeta) 22%,transparent),transparent 58%),
+    radial-gradient(circle at 76% 78%,color-mix(in srgb,var(--salvia) 26%,transparent),transparent 56%);
+}
+.foto.sin-foto::after{
+  content:"";position:absolute;top:50%;left:50%;width:34px;height:28px;
+  transform:translate(-50%,-50%);border-radius:5px;
+  border:2px solid color-mix(in srgb,var(--violeta) 42%,transparent);
+  box-shadow:0 0 0 5px color-mix(in srgb,var(--violeta) 9%,transparent);
+  opacity:.65;
+}
 
 /* --- navegacion --- */
 nav{position:sticky;top:0;z-index:50;height:70px;display:flex;align-items:center;
@@ -100,10 +118,12 @@ nav{position:sticky;top:0;z-index:50;height:70px;display:flex;align-items:center
 .btn-hueco:hover{border-color:var(--violeta);color:var(--violeta);transform:translateY(-2px)}
 .btn:active{transform:translateY(0) scale(.98)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn-lleno{color:#1A1424}}
-.hero-foto{aspect-ratio:4/5;box-shadow:0 30px 70px -30px color-mix(in srgb,var(--violeta-hondo) 42%,transparent)}
+/* Techo de altura para que el hero entre en la primera pantalla. */
+.hero-foto{aspect-ratio:4/5;max-height:min(60vh,540px);
+  box-shadow:0 30px 70px -30px color-mix(in srgb,var(--violeta-hondo) 42%,transparent)}
 @media(max-width:860px){
   .hero-rejilla{grid-template-columns:1fr;gap:36px}
-  .hero-foto{aspect-ratio:4/3;order:-1}
+  .hero-foto{aspect-ratio:16/10;max-height:none;order:-1}
 }
 
 /* --- franja de credenciales --- */
@@ -427,6 +447,24 @@ footer{padding:44px 0;border-top:1px solid var(--linea);margin-top:clamp(64px,9v
 </footer>
 
 <script>
+// Marca los huecos cuya foto todavia no existe, para que el navegador no
+// dibuje su icono de imagen rota ni el texto alternativo sobre el degradado.
+(function(){
+  function marcar(img){
+    var cont = img.closest('.foto');
+    if (cont) cont.classList.add('sin-foto');
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('.foto img'), function(img){
+    // Si ya fallo antes de que corriera este script, el evento error no llega:
+    // hay que mirar naturalWidth sobre una imagen ya terminada de cargar.
+    if (img.complete) {
+      if (img.naturalWidth === 0) marcar(img);
+    } else {
+      img.addEventListener('error', function(){ marcar(img); }, { once: true });
+    }
+  });
+})();
+
 // Revelado al entrar en pantalla. IntersectionObserver, no listener de scroll.
 (function(){
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
