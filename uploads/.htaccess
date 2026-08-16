@@ -1,3 +1,0 @@
-# Los archivos subidos no se sirven por HTTP: se entregan desde PHP
-# previa validacion de sesion y permisos.
-Require all denied

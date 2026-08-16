@@ -482,15 +482,16 @@ composer.lock
 ##### AlastreSystem - credenciales locales (NO subir al repositorio)
 config_correo.php
 
-##### AlastreSystem - respaldos de base de datos (contienen datos reales)
-database/backups/
+##### AlastreSystem - datos de leads (NUNCA subir)
+# Cada JSON lleva nombre, telefono y direccion de un negocio real, obtenidos
+# de la Places API, que ademas limita cuanto tiempo se pueden conservar.
+# Viaja el esqueleto de carpetas; el contenido se queda en local.
+pipeline/**/*.json
+pipeline/_trabajando/*
 
-##### AlastreSystem - archivos subidos por usuarios (NO subir)
-# Se conserva la carpeta (con .gitkeep) porque la app escribe ahi.
-uploads/*
-!uploads/.gitkeep
-# El .htaccess SI debe viajar: es lo que impide servir la carpeta por HTTP.
-!uploads/.htaccess
+##### AlastreSystem - landings generadas (se regeneran, no se versionan)
+landings/*
+!landings/.gitkeep
 
 ##### AlastreSystem - tooling local y artefactos generados (NO subir)
 .claude/

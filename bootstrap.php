@@ -1,9 +1,9 @@
 <?php
 /**
- * AlastreSystem - arranque de la aplicacion.
+ * AlastreSystem - arranque comun (CLI y panel web).
  *
- * Carga las variables de .env y expone la conexion a la base de datos.
- * Incluir este archivo al inicio de cualquier punto de entrada.
+ * Carga las variables de .env y las librerias del pipeline. No hay base de
+ * datos: el estado vive en el sistema de archivos, bajo pipeline/.
  */
 
 declare(strict_types=1);
@@ -42,36 +42,41 @@ function cargar_env(string $ruta): void
  */
 function env(string $clave, ?string $defecto = null): ?string
 {
-    return $_ENV[$clave] ?? $defecto;
+    $valor = $_ENV[$clave] ?? $defecto;
+    return $valor === '' ? $defecto : $valor;
 }
 
 /**
- * Conexion PDO compartida. Se abre una sola vez por peticion.
+ * Igual que env() pero revienta si falta. Para claves sin las que no se puede
+ * seguir: mejor un mensaje claro ahora que un 401 raro tres pasos despues.
  */
-function db(): PDO
+function env_obligatoria(string $clave): string
 {
-    static $pdo = null;
+    $valor = env($clave);
 
-    if ($pdo === null) {
-        $dsn = sprintf(
-            'mysql:host=%s;port=%s;dbname=%s;charset=%s',
-            env('DB_HOST', 'localhost'),
-            env('DB_PORT', '3306'),
-            env('DB_NAME', ''),
-            env('DB_CHARSET', 'utf8mb4')
+    if ($valor === null) {
+        throw new RuntimeException(
+            "Falta {$clave} en el archivo .env. Mira .env.example para saber de donde sacarla."
         );
-
-        $pdo = new PDO($dsn, env('DB_USER', 'root'), env('DB_PASS', ''), [
-            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-            PDO::ATTR_EMULATE_PREPARES   => false,
-        ]);
     }
 
-    return $pdo;
+    return $valor;
+}
+
+// En CLI un stack trace no ayuda a nadie: el mensaje ya dice que hacer.
+if (PHP_SAPI === 'cli') {
+    set_exception_handler(static function (Throwable $e): void {
+        fwrite(STDERR, "\n  Error: {$e->getMessage()}\n\n");
+        exit(1);
+    });
 }
 
 cargar_env(BASE_PATH . '/.env');
+
+require_once BASE_PATH . '/lib/http.php';
+require_once BASE_PATH . '/lib/pipeline.php';
+
+preparar_pipeline();
 
 // En local queremos ver los errores; en produccion se registran, no se muestran.
 $depurar = env('APP_DEBUG', 'false') === 'true';
