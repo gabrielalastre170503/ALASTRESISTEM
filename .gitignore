@@ -489,9 +489,11 @@ config_correo.php
 pipeline/**/*.json
 pipeline/_trabajando/*
 
-##### AlastreSystem - landings generadas (se regeneran, no se versionan)
-landings/*
-!landings/.gitkeep
+##### AlastreSystem - landings
+# El HTML SI se versiona: la primera de cada vertical es la plantilla de las
+# siguientes. Las fotos NO: son del cliente, pesan, y no son nuestras.
+landings/**/img/*
+!landings/**/img/LEEME.md
 
 ##### AlastreSystem - tooling local y artefactos generados (NO subir)
 .claude/

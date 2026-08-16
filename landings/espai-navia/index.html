@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Espai Navia · Psicología y Salud Integral en Benimaclet, València</title>
+<meta name="description" content="Centro sanitario de psicología en Benimaclet. Terapia EMDR, Gestalt y arteterapia para niños, adolescentes y adultos. Eva Sánchez, psicóloga.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,700&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  /* Violeta de su propio logo. No es una eleccion estetica: es su marca. */
+  --violeta:#5B3E86;
+  --violeta-hondo:#3A2456;
+  --violeta-claro:#EDE7F4;
+  /* Verde del jardin que tiene delante del local */
+  --salvia:#5B7A5F;
+  --salvia-claro:#E4EBE3;
+  --tinta:#241B2E;
+  --tinta-suave:#5F5470;
+  --tinta-tenue:#8F86A0;
+  --fondo:#FBFAFC;
+  --superficie:#FFFFFF;
+  --linea:#E7E2EE;
+  --radio:14px;
+  --display:"Bricolage Grotesque",Georgia,serif;
+  --texto:"Manrope",-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --violeta:#B79BDD;
+    --violeta-hondo:#D9C9F0;
+    --violeta-claro:#2B2138;
+    --salvia:#9BBB9F;
+    --salvia-claro:#1F2A21;
+    --tinta:#EFEAF5;
+    --tinta-suave:#B3A9C2;
+    --tinta-tenue:#7F7590;
+    --fondo:#15111C;
+    --superficie:#1D1727;
+    --linea:#2E2540;
+  }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--fondo);color:var(--tinta);
+  font-family:var(--texto);font-size:17px;line-height:1.65;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+h1,h2,h3{font-family:var(--display);font-weight:700;letter-spacing:-.025em;line-height:1.08;margin:0;text-wrap:balance}
+p{margin:0;max-width:62ch}
+a{color:inherit}
+img{max-width:100%;display:block}
+.env{width:100%;max-width:1200px;margin:0 auto;padding:0 24px}
+
+/* --- imagenes: fondo tintado para que no se vea roto si falta el archivo --- */
+.foto{position:relative;overflow:hidden;border-radius:var(--radio);background:linear-gradient(140deg,var(--violeta-claro),var(--salvia-claro));}
+.foto img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.16,1,.3,1)}
+.foto:hover img{transform:scale(1.04)}
+
+/* --- navegacion --- */
+nav{position:sticky;top:0;z-index:50;height:70px;display:flex;align-items:center;
+  background:color-mix(in srgb,var(--fondo) 88%,transparent);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--linea)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;gap:24px;width:100%}
+.marca{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:1.06rem;text-decoration:none;letter-spacing:-.02em}
+.marca svg{flex:0 0 auto}
+.nav-links{display:flex;gap:28px;align-items:center;font-size:.92rem;font-weight:500}
+.nav-links a{text-decoration:none;color:var(--tinta-suave);transition:color .2s}
+.nav-links a:hover{color:var(--violeta)}
+.nav-tel{display:inline-flex;align-items:center;gap:8px;padding:9px 17px;border-radius:999px;
+  background:var(--violeta);color:#fff;text-decoration:none;font-weight:600;font-size:.9rem;
+  transition:transform .2s cubic-bezier(.16,1,.3,1),box-shadow .2s;white-space:nowrap}
+.nav-tel:hover{transform:translateY(-1px);box-shadow:0 8px 22px color-mix(in srgb,var(--violeta) 32%,transparent)}
+.nav-tel:active{transform:translateY(0) scale(.98)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .nav-tel{color:#1A1424}}
+@media(max-width:900px){.nav-links{display:none}}
+
+/* --- hero: split asimetrico --- */
+.hero{padding:clamp(48px,7vw,88px) 0 clamp(56px,8vw,104px)}
+.hero-rejilla{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(32px,5vw,72px);align-items:center}
+.hero h1{font-size:clamp(2.5rem,5.6vw,4.15rem)}
+.hero h1 em{font-style:italic;color:var(--violeta);line-height:1.12;display:inline-block;padding-bottom:.08em}
+.cejilla{display:inline-flex;align-items:center;gap:9px;font-size:.73rem;font-weight:600;
+  letter-spacing:.15em;text-transform:uppercase;color:var(--salvia);margin-bottom:20px}
+.cejilla::before{content:"";width:26px;height:1.5px;background:var(--salvia)}
+.hero p{margin-top:20px;font-size:1.1rem;color:var(--tinta-suave)}
+.acciones{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+.btn{display:inline-flex;align-items:center;gap:9px;padding:14px 26px;border-radius:999px;
+  text-decoration:none;font-weight:600;font-size:.97rem;white-space:nowrap;border:1.5px solid transparent;
+  transition:transform .2s cubic-bezier(.16,1,.3,1),box-shadow .2s,background .2s}
+.btn-lleno{background:var(--violeta);color:#fff}
+.btn-lleno:hover{transform:translateY(-2px);box-shadow:0 12px 30px color-mix(in srgb,var(--violeta) 34%,transparent)}
+.btn-hueco{border-color:var(--linea);color:var(--tinta)}
+.btn-hueco:hover{border-color:var(--violeta);color:var(--violeta);transform:translateY(-2px)}
+.btn:active{transform:translateY(0) scale(.98)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn-lleno{color:#1A1424}}
+.hero-foto{aspect-ratio:4/5;box-shadow:0 30px 70px -30px color-mix(in srgb,var(--violeta-hondo) 42%,transparent)}
+@media(max-width:860px){
+  .hero-rejilla{grid-template-columns:1fr;gap:36px}
+  .hero-foto{aspect-ratio:4/3;order:-1}
+}
+
+/* --- franja de credenciales --- */
+.franja{border-top:1px solid var(--linea);border-bottom:1px solid var(--linea);background:var(--superficie)}
+.franja-in{display:flex;flex-wrap:wrap;gap:12px 44px;padding:22px 0;align-items:center;justify-content:space-between}
+.cred{display:flex;align-items:center;gap:11px;font-size:.9rem;color:var(--tinta-suave);font-weight:500}
+.cred svg{flex:0 0 auto;color:var(--salvia)}
+
+/* --- secciones --- */
+section{padding:clamp(64px,9vw,116px) 0}
+.tit-sec{font-size:clamp(1.85rem,3.6vw,2.7rem);max-width:19ch}
+.sec-intro{margin-top:16px;color:var(--tinta-suave);font-size:1.05rem}
+
+/* --- servicios: bento asimetrico, 4 celdas para 4 servicios --- */
+.bento{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:52px}
+.celda{position:relative;border-radius:var(--radio);padding:30px;display:flex;flex-direction:column;
+  justify-content:flex-end;min-height:250px;overflow:hidden;border:1px solid var(--linea);background:var(--superficie)}
+.celda h3{font-size:1.28rem;margin-bottom:9px}
+.celda p{font-size:.93rem;color:var(--tinta-suave);max-width:38ch}
+.c-ancha{grid-column:span 2}
+.c-foto{grid-column:span 2;padding:0;border:none;min-height:300px}
+.c-foto img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.c-tinte{background:linear-gradient(155deg,var(--violeta-claro),var(--superficie))}
+.c-verde{background:linear-gradient(155deg,var(--salvia-claro),var(--superficie))}
+.icono{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;
+  background:color-mix(in srgb,var(--violeta) 12%,transparent);color:var(--violeta);margin-bottom:auto}
+.c-verde .icono{background:color-mix(in srgb,var(--salvia) 14%,transparent);color:var(--salvia)}
+@media(max-width:900px){.bento{grid-template-columns:1fr}.c-ancha,.c-foto{grid-column:span 1}}
+
+/* --- el espacio: tira horizontal --- */
+.espacio{background:var(--superficie);border-top:1px solid var(--linea);border-bottom:1px solid var(--linea)}
+.tira{display:flex;gap:16px;overflow-x:auto;margin-top:44px;padding-bottom:14px;scroll-snap-type:x mandatory}
+.tira::-webkit-scrollbar{height:5px}
+.tira::-webkit-scrollbar-thumb{background:var(--linea);border-radius:9px}
+.tira .foto{flex:0 0 clamp(250px,32vw,380px);aspect-ratio:3/4;scroll-snap-align:start}
+.pie-foto{margin-top:11px;font-size:.85rem;color:var(--tinta-tenue)}
+
+/* --- eva: split invertido --- */
+.eva{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(32px,5vw,68px);align-items:center}
+.eva-foto{aspect-ratio:1/1;border-radius:var(--radio)}
+.eva-lista{list-style:none;padding:0;margin:28px 0 0;display:grid;gap:14px}
+.eva-lista li{display:flex;gap:13px;align-items:flex-start;font-size:.97rem;color:var(--tinta-suave)}
+.eva-lista svg{flex:0 0 auto;margin-top:4px;color:var(--violeta)}
+@media(max-width:860px){.eva{grid-template-columns:1fr}}
+
+/* --- talleres: filas agrupadas, no lista con rayas --- */
+.talleres{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:48px}
+.taller{padding:28px;border-radius:var(--radio);background:var(--superficie);border:1px solid var(--linea);
+  transition:transform .3s cubic-bezier(.16,1,.3,1),border-color .3s}
+.taller:hover{transform:translateY(-3px);border-color:var(--violeta)}
+.taller h3{font-size:1.1rem;margin-bottom:7px}
+.taller p{font-size:.92rem;color:var(--tinta-suave)}
+@media(max-width:760px){.talleres{grid-template-columns:1fr}}
+
+/* --- contacto --- */
+.contacto{background:var(--violeta-hondo);color:#F6F2FB;border-radius:22px;padding:clamp(40px,6vw,72px);
+  display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(28px,4vw,56px);align-items:center}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .contacto{background:var(--violeta-claro);color:var(--tinta)}}
+.contacto h2{font-size:clamp(1.8rem,3.4vw,2.5rem);color:inherit}
+.contacto p{color:color-mix(in srgb,currentColor 76%,transparent);margin-top:14px}
+.datos{display:grid;gap:16px}
+.dato{display:flex;gap:13px;align-items:flex-start;font-size:.97rem}
+.dato svg{flex:0 0 auto;margin-top:3px;opacity:.72}
+.dato strong{display:block;font-weight:600}
+.dato span{color:color-mix(in srgb,currentColor 68%,transparent);font-size:.9rem}
+.btn-contacto{background:#fff;color:var(--violeta-hondo);margin-top:26px}
+.btn-contacto:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(0,0,0,.24)}
+@media(max-width:860px){.contacto{grid-template-columns:1fr}}
+
+footer{padding:44px 0;border-top:1px solid var(--linea);margin-top:clamp(64px,9vw,116px)}
+.pie{display:flex;flex-wrap:wrap;gap:16px 32px;justify-content:space-between;align-items:center;
+  font-size:.87rem;color:var(--tinta-tenue)}
+.pie a{color:var(--tinta-suave);text-decoration:none}
+.pie a:hover{color:var(--violeta)}
+
+/* --- entrada al hacer scroll --- */
+.rev{opacity:0;transform:translateY(26px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+.rev.vista{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .rev{opacity:1;transform:none;transition:none}
+  .foto img,.btn,.taller,.nav-tel{transition:none}
+  .foto:hover img{transform:none}
+}
+:focus-visible{outline:2.5px solid var(--violeta);outline-offset:3px;border-radius:4px}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="env nav-in">
+    <a class="marca" href="#">
+      <svg width="30" height="30" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <circle cx="16" cy="16" r="15" stroke="currentColor" stroke-width="1.6" opacity=".3"/>
+        <path d="M16 24v-8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        <circle cx="11.5" cy="12" r="3.1" fill="#5B7A5F"/>
+        <circle cx="16" cy="8.6" r="3.1" fill="#5B3E86"/>
+        <circle cx="20.5" cy="12" r="3.1" fill="#C9922F"/>
+        <circle cx="18.6" cy="15.4" r="2.5" fill="#B4527A"/>
+        <circle cx="13.4" cy="15.4" r="2.5" fill="#3F7C8C"/>
+      </svg>
+      Espai Navia
+    </a>
+    <div class="nav-links">
+      <a href="#terapias">Terapias</a>
+      <a href="#espacio">El espacio</a>
+      <a href="#eva">Quién te atiende</a>
+      <a href="#talleres">Talleres</a>
+    </div>
+    <a class="nav-tel" href="tel:+34657330383">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
+        <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.7 2.6a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.5-1.2a2 2 0 0 1 2.1-.5c.8.4 1.7.6 2.6.7a2 2 0 0 1 1.7 2Z"/>
+      </svg>
+      657 330 383
+    </a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="env hero-rejilla">
+    <div class="rev">
+      <span class="cejilla">Centro sanitario en Benimaclet</span>
+      <h1>Un espacio para <em>parar</em> y entenderte.</h1>
+      <p>Psicología para niños, adolescentes y adultos en València. Terapia EMDR, Gestalt y arteterapia, con la calma que hace falta para empezar.</p>
+      <div class="acciones">
+        <a class="btn btn-lleno" href="tel:+34657330383">Pedir cita</a>
+        <a class="btn btn-hueco" href="#terapias">Ver terapias</a>
+      </div>
+    </div>
+    <div class="foto hero-foto rev">
+      <img src="img/sala-terapia.jpg" alt="Sala de terapia de Espai Navia, con dos butacas y luz natural" loading="eager">
+    </div>
+  </div>
+</header>
+
+<div class="franja">
+  <div class="env franja-in">
+    <span class="cred">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></svg>
+      Centro sanitario registrado
+    </span>
+    <span class="cred">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 4 6v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V6Z"/></svg>
+      Terapeuta EMDR acreditada
+    </span>
+    <span class="cred">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      Primera consulta sin compromiso
+    </span>
+    <span class="cred">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11a3 3 0 1 0 6 0 3 3 0 0 0-6 0Z"/><path d="M17.7 17.7 12 22l-5.7-4.3A8 8 0 1 1 17.7 17.7Z"/></svg>
+      Junto al parque de Benimaclet
+    </span>
+  </div>
+</div>
+
+<section id="terapias">
+  <div class="env">
+    <div class="rev">
+      <h2 class="tit-sec">Terapia adaptada a cada edad y a cada momento.</h2>
+      <p class="sec-intro">No todo el mundo llega por lo mismo, ni necesita lo mismo. Estas son las cuatro formas de trabajo del centro.</p>
+    </div>
+
+    <div class="bento">
+      <div class="celda c-tinte c-ancha rev">
+        <div class="icono">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21.2l7.7-7.8 1.1-1a5.5 5.5 0 0 0 0-7.8Z"/></svg>
+        </div>
+        <h3>Adultos</h3>
+        <p>Ansiedad, duelo, momentos de bloqueo o de cambio. Terapia Gestalt y EMDR, a tu ritmo y sin prisa por cerrar nada.</p>
+      </div>
+
+      <div class="foto c-foto rev">
+        <img src="img/sala-infantil.jpg" alt="Sala de terapia infantil con butacas de colores y luz cálida" loading="lazy">
+      </div>
+
+      <div class="foto c-foto rev">
+        <img src="img/sala-grupos.jpg" alt="Sala de grupos con cojines y colchonetas para trabajo corporal" loading="lazy">
+      </div>
+
+      <div class="celda c-verde rev">
+        <div class="icono">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="7" r="4"/><path d="M2 21v-2a5 5 0 0 1 5-5h4a5 5 0 0 1 5 5v2"/><path d="M16 3.1a4 4 0 0 1 0 7.8"/><path d="M22 21v-2a5 5 0 0 0-3.7-4.8"/></svg>
+        </div>
+        <h3>Niños y adolescentes</h3>
+        <p>Miedos, dificultades del sueño, acoso escolar, adopción. Con el juego y el arte como vía de entrada.</p>
+      </div>
+
+      <div class="celda rev">
+        <div class="icono">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="19" cy="17" r="2"/><circle cx="6" cy="12" r="3"/><path d="M12 22a10 10 0 1 1 10-10"/></svg>
+        </div>
+        <h3>Terapias expresivas</h3>
+        <p>Arteterapia, musicoterapia y trabajo corporal, para lo que cuesta poner en palabras.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="espacio" class="espacio">
+  <div class="env">
+    <div class="rev">
+      <span class="cejilla">El espacio</span>
+      <h2 class="tit-sec">Vale la pena verlo antes de venir.</h2>
+      <p class="sec-intro">Cuatro salas junto al parque de Benimaclet, pensadas para que entrar no cueste.</p>
+    </div>
+
+    <div class="tira rev">
+      <div>
+        <div class="foto"><img src="img/recepcion.jpg" alt="Recepción de Espai Navia con luz natural y acceso al jardín" loading="lazy"></div>
+        <p class="pie-foto">La entrada, con acceso directo al jardín.</p>
+      </div>
+      <div>
+        <div class="foto"><img src="img/sala-yoga.jpg" alt="Sala diáfana con esterillas y bloques para trabajo corporal" loading="lazy"></div>
+        <p class="pie-foto">Sala de movimiento y trabajo corporal.</p>
+      </div>
+      <div>
+        <div class="foto"><img src="img/sala-formacion.jpg" alt="Sala de formación con mesas y sillas dispuestas para un taller" loading="lazy"></div>
+        <p class="pie-foto">Sala de talleres y formación.</p>
+      </div>
+      <div>
+        <div class="foto"><img src="img/jardin.jpg" alt="Jardín arbolado frente al centro, en Benimaclet" loading="lazy"></div>
+        <p class="pie-foto">Lo que se ve al salir.</p>
+      </div>
+      <div>
+        <div class="foto"><img src="img/fachada.jpg" alt="Fachada del centro Espai Navia en la plaza Alcalde Domingo Torres" loading="lazy"></div>
+        <p class="pie-foto">Plaza Alcalde Domingo Torres, 4.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="eva">
+  <div class="env eva">
+    <div class="foto eva-foto rev">
+      <img src="img/eva.jpg" alt="Eva Sánchez, psicóloga y responsable de Espai Navia" loading="lazy">
+    </div>
+    <div class="rev">
+      <h2 class="tit-sec">Te atiende Eva Sánchez.</h2>
+      <p class="sec-intro">Psicóloga. Trabaja con niños, adolescentes y adultos, y lleva el centro desde su apertura en Benimaclet.</p>
+      <ul class="eva-lista">
+        <li>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5L20 7"/></svg>
+          Terapeuta EMDR para infancia, adolescencia y edad adulta
+        </li>
+        <li>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5L20 7"/></svg>
+          Formación en Terapia Gestalt
+        </li>
+        <li>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5L20 7"/></svg>
+          Experta en Terapias Expresivas y Arteterapia Transdisciplinar
+        </li>
+        <li>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5L20 7"/></svg>
+          Espacio seguro para el colectivo LGTBIQ+
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="talleres">
+  <div class="env">
+    <div class="rev">
+      <h2 class="tit-sec">También se hacen talleres y formación.</h2>
+      <p class="sec-intro">En grupo, en la sala grande, con plazas limitadas.</p>
+    </div>
+    <div class="talleres">
+      <div class="taller rev">
+        <h3>Grupos de acompañamiento</h3>
+        <p>Espacios reducidos para trabajar en común lo que en individual cuesta sostener solo.</p>
+      </div>
+      <div class="taller rev">
+        <h3>Arteterapia en grupo</h3>
+        <p>Sesiones donde el material plástico hace de puente cuando las palabras no llegan.</p>
+      </div>
+      <div class="taller rev">
+        <h3>Movimiento y cuerpo</h3>
+        <p>Trabajo corporal y respiración en la sala diáfana, para bajar el nivel de activación.</p>
+      </div>
+      <div class="taller rev">
+        <h3>Formación para profesionales</h3>
+        <p>Jornadas dirigidas a terapeutas y educadores que quieran incorporar terapias expresivas.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="env">
+    <div class="contacto rev">
+      <div>
+        <h2>Si has llegado hasta aquí, escribe o llama.</h2>
+        <p>La primera consulta sirve para conocernos y ver si este es el sitio. No hay que decidir nada ese día.</p>
+        <a class="btn btn-contacto" href="tel:+34657330383">Llamar al 657 330 383</a>
+      </div>
+      <div class="datos">
+        <div class="dato">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11a3 3 0 1 0 6 0 3 3 0 0 0-6 0Z"/><path d="M17.7 17.7 12 22l-5.7-4.3A8 8 0 1 1 17.7 17.7Z"/></svg>
+          <span><strong>Plaza Alcalde Domingo Torres, 4</strong><span>Bajo. Benimaclet, 46020 València</span></span>
+        </div>
+        <div class="dato">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.7 2.6a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.5-1.2a2 2 0 0 1 2.1-.5c.8.4 1.7.6 2.6.7a2 2 0 0 1 1.7 2Z"/></svg>
+          <span><strong>657 330 383</strong><span>Lunes a viernes, de 9:00 a 20:00</span></span>
+        </div>
+        <div class="dato">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>
+          <span><strong>Consulta por correo</strong><span>Respuesta en menos de 24 horas laborables</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="env pie">
+    <span>Espai Navia · Psicología y Salud Integral · Benimaclet, València</span>
+    <span><a href="tel:+34657330383">657 330 383</a></span>
+  </div>
+</footer>
+
+<script>
+// Revelado al entrar en pantalla. IntersectionObserver, no listener de scroll.
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var items = document.querySelectorAll('.rev');
+  if (reduce || !('IntersectionObserver' in window)) {
+    items.forEach(function(el){ el.classList.add('vista'); });
+    return;
+  }
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (!e.isIntersecting) return;
+      var sibs = Array.prototype.slice.call(e.target.parentNode.querySelectorAll('.rev'));
+      e.target.style.transitionDelay = Math.min(sibs.indexOf(e.target), 4) * 80 + 'ms';
+      e.target.classList.add('vista');
+      obs.unobserve(e.target);
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  items.forEach(function(el){ obs.observe(el); });
+})();
+</script>
+</body>
+</html>
