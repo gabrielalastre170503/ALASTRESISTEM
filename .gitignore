@@ -499,3 +499,7 @@ landings/*
 graphify-out/
 skills-lock.json
 _*.php
+
+##### AlastreSystem - listas de leads importadas (datos de negocios reales)
+leads*.csv
+!leads-ejemplo.csv

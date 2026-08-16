@@ -34,10 +34,22 @@ Opcionalmente habilita también **PageSpeed Insights API** y pon la clave en
 
 ## Flujo de trabajo
 
-```bash
-# 1. Descubrir negocios de un vertical en una zona
-php bin/scout.php "clinica dental" "Valencia, Espana" --max=20
+Hay dos formas de meter leads. **Para la Fase 0 no hace falta Places API:**
 
+```bash
+# A) A mano — buscas en Google Maps, copias 10 negocios a un CSV
+#    Solo necesita la clave de PageSpeed, que es gratuita.
+php bin/importar.php leads.csv "psicologia" "Valencia, Espana"
+
+# B) Automático — requiere clave de Places con facturación habilitada
+php bin/scout.php "psicologia" "Valencia, Espana" --max=20
+```
+
+Copia `leads-ejemplo.csv` para ver el formato. Solo el nombre es obligatorio;
+dejar la web vacía es información, no un hueco: un negocio sin web es el mejor
+lead que hay.
+
+```bash
 # 2. Auditarlos: hallazgos objetivos y citables
 php bin/auditar.php --limite=10
 
