@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Espai Navia · Psicología y Salud Integral en Benimaclet, València</title>
 <meta name="description" content="Centro sanitario de psicología en Benimaclet, València. Terapia EMDR, Gestalt y arteterapia para niños, adolescentes y adultos. 4,9 sobre 5 en Google.">
+<meta name="color-scheme" content="light">
 <meta name="theme-color" content="#5B3E86">
 <script>document.documentElement.classList.add('js')</script>
 
@@ -52,18 +53,6 @@
   --display:"Bricolage Grotesque",Georgia,serif;
   --body:"Manrope",-apple-system,"Segoe UI",sans-serif;
 }
-@media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){
-    --v-900:#D9C9F0; --v-700:#C4ACE6; --v-500:#B79BDD; --v-300:#7C639F;
-    --v-100:#2C2139; --v-050:#241B2F;
-    --g-500:#9BBB9F; --g-300:#6E8C73; --g-100:#1F2A21;
-    --ink:#EFEAF5; --ink-2:#B0A6C0; --ink-3:#7C7290;
-    --bg:#14101B; --surface:#1C1626; --line:#2D2440;
-    --gold:#D2A354;
-    --shadow:0 24px 60px -28px rgba(0,0,0,.7);
-  }
-}
-
 /* ==========================================================================
    2. BASE
    ========================================================================== */
@@ -98,8 +87,6 @@ body::after{
   content:"";position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.035;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
 }
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) body::after{opacity:.055}}
-
 /* ==========================================================================
    3. PRIMITIVAS DE LAYOUT
    ========================================================================== */
@@ -136,8 +123,6 @@ body::after{
 .btn--claro{background:#fff;color:var(--v-700)}
 .btn--claro:hover{transform:translateY(-2px);box-shadow:0 14px 32px -10px rgba(0,0,0,.4)}
 .btn:active{transform:translateY(0) scale(.98)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn--primario{color:#191122}}
-
 /* -- foto --
    Las fotos son capturas de movil con temperaturas de color dispares. Un
    grado comun (menos saturacion, algo mas de calidez y contraste) hace que
@@ -188,8 +173,6 @@ body::after{
   border-radius:var(--r-full);background:var(--v-500);color:#fff;font-weight:700;font-size:var(--t-sm);
   transition:transform .22s cubic-bezier(.16,1,.3,1)}
 .nav__cta:hover{transform:translateY(-1px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .nav__cta{color:#191122}}
-
 /* ==========================================================================
    6. HERO
    ========================================================================== */
@@ -231,8 +214,6 @@ body::after{
 }
 .paso h3{font-size:var(--t-lg);margin-block-end:var(--s1)}
 .paso p{font-size:var(--t-sm);color:var(--ink-2)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .paso::before{color:#191122}}
-
 /* ==========================================================================
    9. TERAPIAS (bento)
    ========================================================================== */
