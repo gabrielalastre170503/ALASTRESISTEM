@@ -53,9 +53,31 @@ lead que hay.
 # 2. Auditarlos: hallazgos objetivos y citables
 php bin/auditar.php --limite=10
 
-# 3. Ver dónde está todo
+# 3. Comprobar si de verdad no tienen web
+php bin/verificar.php --etapa=20-auditado --limite=10
+
+# 4. Ver dónde está todo
 php bin/estado.php
 ```
+
+### Por qué existe el paso 3
+
+Que Google Maps no enlace una web **no prueba** que el negocio no la tenga.
+En el primer lote real, 4 de cada 10 leads marcados como "sin web" sí la
+tenían. Escribirle a alguien diciéndole que no tiene algo que sí tiene quema
+el lead en la primera frase.
+
+El verificador deduce dominios del nombre del negocio, los prueba, y para los
+que responden comprueba que sean suyos buscando su teléfono o su calle dentro
+de la página. Distingue dos niveles:
+
+- **CONFIRMADO** — aparece su teléfono, su dirección o su nombre completo.
+- **POSIBLE, revisar** — el dominio sale de su nombre y la página lo menciona,
+  pero sin prueba fuerte. Hay que mirarlo a mano.
+
+Los dominios de una sola palabra (`mercedes`, `piensa`) solo se aceptan con
+prueba fuerte: con nombres comunes coinciden con marcas ajenas. Sin esa regla,
+el verificador daba Mercedes-Benz como web de una psicóloga llamada Mercedes.
 
 Y para la puerta humana, con Apache levantado:
 <http://localhost/AlastreSystem/>
