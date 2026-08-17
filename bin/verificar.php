@@ -213,6 +213,21 @@ function buscar_web(array $dominios, array $lead): ?array
             foreach (['https://', 'http://'] as $esquema) {
                 $res = http_get($esquema . $host, [], 12);
 
+                /* Un 5xx no es "no existe": es un dominio suyo que ahora mismo
+                   no sirve contenido. Le paso a espainavia.es, que devuelve 503
+                   con pagina de mantenimiento y salia como "sin indicios"
+                   cuando en realidad es un lead de rediseno. No se puede
+                   atribuir sin contenido, pero callarlo es peor: se avisa para
+                   que lo mire una persona. */
+                if ($res['estado'] >= 500 && $nPalabras >= 2) {
+                    return [
+                        'url'       => $esquema . $host,
+                        'prueba'    => "el dominio existe pero devuelve HTTP {$res['estado']}, "
+                                     . 'asi que no se puede atribuir automaticamente',
+                        'confianza' => 'baja',
+                    ];
+                }
+
                 if ($res['estado'] < 200 || $res['estado'] >= 400 || $res['cuerpo'] === '') {
                     continue;
                 }
