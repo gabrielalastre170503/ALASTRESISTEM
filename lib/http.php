@@ -30,6 +30,20 @@ function http_post_json(string $url, array $datos, array $cabeceras = [], int $t
 }
 
 /**
+ * POST con cuerpo urlencoded. Overpass lo exige: no acepta JSON.
+ *
+ * @param array<string,string> $campos
+ * @param array<string,string> $cabeceras
+ * @return array{estado:int, cuerpo:string, error:?string}
+ */
+function http_post_form(string $url, array $campos, int $timeout = 60, array $cabeceras = []): array
+{
+    $cabeceras['Content-Type'] = 'application/x-www-form-urlencoded';
+
+    return http_peticion('POST', $url, http_build_query($campos), $cabeceras, $timeout);
+}
+
+/**
  * @param array<string,string> $cabeceras
  * @return array{estado:int, cuerpo:string, error:?string}
  */

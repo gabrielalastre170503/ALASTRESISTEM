@@ -41,7 +41,11 @@ Hay dos formas de meter leads. **Para la Fase 0 no hace falta Places API:**
 #    Solo necesita la clave de PageSpeed, que es gratuita.
 php bin/importar.php leads.csv "psicologia" "Valencia, Espana"
 
-# B) Automático — requiere clave de Places con facturación habilitada
+# B) Automático y gratis — OpenStreetMap, sin clave ni facturación
+php bin/scout-osm.php psicologia "Valencia, España" --max=40
+php bin/scout-osm.php --listar   # verticales disponibles
+
+# C) Automático de pago — Google Places, mejor cobertura, requiere facturación
 php bin/scout.php "psicologia" "Valencia, Espana" --max=20
 ```
 
