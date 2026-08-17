@@ -115,9 +115,12 @@ pipeline/
 ```
 AlastreSystem/
 ├── bin/
-│   ├── scout.php     descubrir vía Places API
-│   ├── auditar.php   PageSpeed + comprobaciones de la web
-│   └── estado.php    resumen del pipeline
+│   ├── scout-osm.php  descubrir vía OpenStreetMap (gratis)
+│   ├── scout.php      descubrir vía Places API (de pago)
+│   ├── importar.php   importar leads desde CSV
+│   ├── auditar.php    PageSpeed + comprobaciones de la web
+│   ├── verificar.php  ¿tiene web aunque Maps no la enlace?
+│   └── estado.php     resumen del pipeline
 ├── lib/
 │   ├── pipeline.php  estados, reclamo, escritura atómica
 │   └── http.php      cliente HTTP sobre cURL
