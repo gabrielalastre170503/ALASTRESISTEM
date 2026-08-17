@@ -118,8 +118,9 @@ nav{position:sticky;top:0;z-index:50;height:70px;display:flex;align-items:center
 .btn-hueco:hover{border-color:var(--violeta);color:var(--violeta);transform:translateY(-2px)}
 .btn:active{transform:translateY(0) scale(.98)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn-lleno{color:#1A1424}}
-/* Techo de altura para que el hero entre en la primera pantalla. */
-.hero-foto{aspect-ratio:4/5;max-height:min(60vh,540px);
+/* Apaisada 5:4 porque las fotos originales son 16:9. Un recorte vertical
+   se comeria el escritorio y la estanteria, que es lo que da contexto. */
+.hero-foto{aspect-ratio:5/4;max-height:min(58vh,520px);
   box-shadow:0 30px 70px -30px color-mix(in srgb,var(--violeta-hondo) 42%,transparent)}
 @media(max-width:860px){
   .hero-rejilla{grid-template-columns:1fr;gap:36px}
@@ -158,12 +159,18 @@ section{padding:clamp(64px,9vw,116px) 0}
 .tira{display:flex;gap:16px;overflow-x:auto;margin-top:44px;padding-bottom:14px;scroll-snap-type:x mandatory}
 .tira::-webkit-scrollbar{height:5px}
 .tira::-webkit-scrollbar-thumb{background:var(--linea);border-radius:9px}
-.tira .foto{flex:0 0 clamp(250px,32vw,380px);aspect-ratio:3/4;scroll-snap-align:start}
-.pie-foto{margin-top:11px;font-size:.85rem;color:var(--tinta-tenue)}
+/* El hijo flexible es el div que envuelve a .foto, no .foto. Si se le pone
+   el flex-basis a la foto, los envoltorios se encogen y las imagenes salen
+   diminutas. */
+.tira>div{flex:0 0 clamp(280px,38vw,440px);scroll-snap-align:start}
+.tira .foto{aspect-ratio:4/3}
+.pie-foto{margin-top:11px;font-size:.85rem;color:var(--tinta-suave);max-width:34ch}
 
 /* --- eva: split invertido --- */
 .eva{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(32px,5vw,68px);align-items:center}
-.eva-foto{aspect-ratio:1/1;border-radius:var(--radio)}
+/* El retrato original es 4:3 y de poca resolucion: se respeta su proporcion
+   para no recortarlo ni ampliarlo mas de lo que da. */
+.eva-foto{aspect-ratio:4/3;border-radius:var(--radio)}
 .eva-lista{list-style:none;padding:0;margin:28px 0 0;display:grid;gap:14px}
 .eva-lista li{display:flex;gap:13px;align-items:flex-start;font-size:.97rem;color:var(--tinta-suave)}
 .eva-lista svg{flex:0 0 auto;margin-top:4px;color:var(--violeta)}
@@ -337,6 +344,10 @@ footer{padding:44px 0;border-top:1px solid var(--linea);margin-top:clamp(64px,9v
         <p class="pie-foto">La entrada, con acceso directo al jardín.</p>
       </div>
       <div>
+        <div class="foto"><img src="img/sala-arbol.jpg" alt="Consulta con dos butacas y un cuadro del árbol en la pared" loading="lazy"></div>
+        <p class="pie-foto">Consulta individual, con el árbol del centro en la pared.</p>
+      </div>
+      <div>
         <div class="foto"><img src="img/sala-yoga.jpg" alt="Sala diáfana con esterillas y bloques para trabajo corporal" loading="lazy"></div>
         <p class="pie-foto">Sala de movimiento y trabajo corporal.</p>
       </div>
@@ -359,7 +370,7 @@ footer{padding:44px 0;border-top:1px solid var(--linea);margin-top:clamp(64px,9v
 <section id="eva">
   <div class="env eva">
     <div class="foto eva-foto rev">
-      <img src="img/eva.jpg" alt="Eva Sánchez, psicóloga y responsable de Espai Navia" loading="lazy">
+      <img src="img/eva.png" alt="Eva Sánchez, psicóloga y responsable de Espai Navia" loading="lazy">
     </div>
     <div class="rev">
       <h2 class="tit-sec">Te atiende Eva Sánchez.</h2>

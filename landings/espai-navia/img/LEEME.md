@@ -1,33 +1,41 @@
 # Fotos de la landing de Espai Navia
 
-Guarda aquí las fotos de Google Maps con **exactamente estos nombres**. La página
-ya las referencia; en cuanto estén, aparecen solas.
+Ya están todas colocadas y renombradas. Esta tabla documenta qué es cada una
+por si hay que reemplazarlas.
 
-Mientras falten, cada hueco muestra un degradado violeta-verde de la marca, así
-que la página se ve intencionada y no rota.
+## En uso
 
-| Archivo | Qué foto va aquí | Recorte |
+| Archivo | Qué es | Dónde sale |
 |---|---|---|
-| `sala-terapia.jpg` | La sala con las dos butacas color crema y el cuadro del árbol en la pared | Vertical 4:5 |
-| `sala-infantil.jpg` | La sala con las dos butacas de patchwork de colores | Horizontal |
-| `sala-grupos.jpg` | La sala con los cojines morados y rosas a lo largo de las paredes | Horizontal |
-| `recepcion.jpg` | El pasillo de entrada con las matrioskas en la estantería | Vertical 3:4 |
-| `sala-yoga.jpg` | La sala con las esterillas moradas y los bloques | Vertical 3:4 |
-| `sala-formacion.jpg` | La sala con las mesas blancas y las sillas | Vertical 3:4 |
-| `jardin.jpg` | El parque arbolado con los bancos | Vertical 3:4 |
-| `fachada.jpg` | El rótulo de la calle con el logo del árbol | Vertical 3:4 |
-| `eva.jpg` | El retrato de Eva | Cuadrada 1:1 |
+| `sala-terapia.jpg` | Consulta con butacas crema, lámpara y escritorio | Hero |
+| `sala-infantil.jpg` | Butacas de patchwork y camilla | Bento, celda 2 |
+| `sala-grupos.jpg` | Cojines a lo largo de las paredes, pared verde | Bento, celda 3 |
+| `recepcion.jpg` | Pasillo de entrada con las matrioskas | Galería |
+| `sala-arbol.jpg` | Consulta con el cuadro del árbol en la pared | Galería |
+| `sala-yoga.jpg` | Esterillas moradas y bloques | Galería |
+| `sala-formacion.jpg` | Mesas y sillas dispuestas para taller | Galería |
+| `jardin.jpg` | Parque arbolado de enfrente | Galería |
+| `fachada.jpg` | Rótulo de día, con `www.espainavia.es` visible | Galería |
+| `eva.png` | Retrato de Eva | Sección "Quién te atiende" |
 
-## Antes de enviar la propuesta
+## Sin usar, disponibles
 
-1. **Comprime las fotos.** Vienen de móvil y pesan varios MB cada una. Pásalas por
-   [squoosh.app](https://squoosh.app) a WebP o JPEG de calidad 80, ancho máximo
-   1600px. Si no, la landing carga lenta y pierdes justo el argumento que usas
-   para vender el rediseño.
+| Archivo | Qué es |
+|---|---|
+| `rincon.jpg` | Rincón con lámpara, estantería y palmeras al fondo |
+| `fachada-noche.jpg` | El mismo rótulo de noche, con la entrada iluminada |
 
-2. **Recorta a la proporción de la tabla.** La CSS usa `object-fit: cover`, así
-   que no se deforma nada, pero un recorte pensado se ve mejor que uno automático.
+## Notas
 
-3. **Estas fotos son de la ficha de Google de ella.** Para una propuesta de venta
-   es razonable, pero díselo cuando se la enseñes, y si contrata, pídele los
-   originales o haced sesión nueva.
+- **Proporciones**: las fotos originales son apaisadas (16:9), así que los
+  recortes de la página son apaisados también (5:4 en el hero, 4:3 en la
+  galería). Un recorte vertical se comería el contexto de las salas.
+
+- **`eva.png` es pequeña** (294x223). Se ve correcta al tamaño en el que sale,
+  pero si contrata conviene pedirle el original.
+
+- **Peso total: 1,3 MB.** Aceptable. Si quieres afinar, pásalas por
+  [squoosh.app](https://squoosh.app) a WebP calidad 80: bajarían a un tercio.
+
+- Estas fotos vienen de su ficha de Google. Para una propuesta es razonable,
+  pero díselo al enseñársela, y si contrata pídele los originales.
