@@ -268,3 +268,16 @@ code{
   .buscador{max-width:none}
   .barra__total{display:none}
 }
+
+/* ==========================================================================
+   Reseñas de Google
+   ========================================================================== */
+.ficha__aux{font-family:var(--sans);font-size:11px;font-weight:400;letter-spacing:0;
+  text-transform:none;color:var(--ink-3)}
+.resenas{display:grid;gap:8px}
+.resenas li{padding:9px 12px;background:var(--bg);border:1px solid var(--line);border-radius:var(--r)}
+.resena__cab{display:flex;align-items:baseline;gap:9px;margin-bottom:3px}
+.resena__nota{font-family:var(--mono);font-size:11.5px;font-weight:700;color:var(--oro)}
+.resena__autor{font-size:12.5px;font-weight:650}
+.resena__cab time{margin-inline-start:auto;font-family:var(--mono);font-size:10.5px;color:var(--ink-3)}
+.resenas p{font-size:13px;line-height:1.5;color:var(--ink-2)}

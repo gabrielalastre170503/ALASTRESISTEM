@@ -336,6 +336,38 @@ foreach (ETIQUETAS as $e => $_) {
                 </p>
               <?php endif; ?>
 
+              <?php if (!empty($l['resenas_texto'])): ?>
+                <h2 class="ficha__tit">Reseñas en Google
+                  <span class="ficha__aux">— material directo para el copy: aquí se ve qué valora su clientela</span>
+                </h2>
+                <ul class="resenas">
+                  <?php foreach ($l['resenas_texto'] as $r):
+                    if (empty($r['texto'])) { continue; } ?>
+                    <li>
+                      <div class="resena__cab">
+                        <span class="resena__nota"><?= h((string) ($r['puntuacion'] ?? '?')) ?>★</span>
+                        <span class="resena__autor"><?= h((string) ($r['autor'] ?? 'anónimo')) ?></span>
+                        <time><?= h(substr((string) ($r['fecha'] ?? ''), 0, 10)) ?></time>
+                      </div>
+                      <p><?= h(mb_substr((string) $r['texto'], 0, 420)) ?><?= mb_strlen((string) $r['texto']) > 420 ? '…' : '' ?></p>
+                    </li>
+                  <?php endforeach; ?>
+                </ul>
+              <?php endif; ?>
+
+              <?php if (!empty($l['fotos'])): ?>
+                <h2 class="ficha__tit">Fotos disponibles en Places</h2>
+                <p class="ficha__p">
+                  <?= count($l['fotos']) ?> referencia(s).
+                  <?php if (!empty($l['fotos_descargadas'])): ?>
+                    <?= (int) $l['fotos_descargadas']['total'] ?> descargadas en
+                    <code><?= h((string) $l['fotos_descargadas']['carpeta']) ?></code>.
+                  <?php else: ?>
+                    Descárgalas con <code>php bin/fotos.php --id=<?= h($lid) ?></code>
+                  <?php endif; ?>
+                </p>
+              <?php endif; ?>
+
               <?php if (!empty($l['mediciones'])): ?>
                 <h2 class="ficha__tit">Mediciones</h2>
                 <div class="medidas">

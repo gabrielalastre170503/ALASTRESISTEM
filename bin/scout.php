@@ -34,9 +34,49 @@ $argumentos = array_values($argumentos);
 $vertical   = $argumentos[0] ?? '';
 $zona       = $argumentos[1] ?? '';
 $maximo     = (int) ($opciones['max'] ?? 20);
+$completo   = isset($opciones['completo']);
 
 if ($vertical === '' || $zona === '') {
-    exit("Uso: php bin/scout.php \"<vertical>\" \"<zona>\" [--max=40]\n");
+    exit(
+        "Uso: php bin/scout.php \"<vertical>\" \"<zona>\" [--max=40] [--completo]\n\n" .
+        "  --completo  pide ademas resenas, fotos, horario y estado del negocio.\n" .
+        "              Sube el tramo de precio de la Places API: uselo en el lote\n" .
+        "              corto que vayas a trabajar, no en el barrido amplio.\n"
+    );
+}
+
+/**
+ * Campos que se piden a Places. El tramo de facturacion lo marca el campo mas
+ * caro de la lista, asi que pedir resenas y fotos en un barrido de cientos de
+ * negocios cuesta bastante mas que pedir solo lo basico. Por eso van aparte.
+ *
+ * @return list<string>
+ */
+function campos(bool $completo): array
+{
+    $basicos = [
+        'places.id',
+        'places.displayName',
+        'places.formattedAddress',
+        'places.websiteUri',
+        'places.nationalPhoneNumber',
+        'places.rating',
+        'places.userRatingCount',
+        'nextPageToken',
+    ];
+
+    if (!$completo) {
+        return $basicos;
+    }
+
+    return array_merge($basicos, [
+        'places.reviews',                 // hasta 5, con texto y autor
+        'places.photos',                  // referencias; la imagen se pide aparte
+        'places.regularOpeningHours',
+        'places.businessStatus',
+        'places.googleMapsUri',
+        'places.primaryTypeDisplayName',
+    ]);
 }
 
 $clave = env_obligatoria('GOOGLE_PLACES_API_KEY');
@@ -65,16 +105,7 @@ do {
         $cuerpo,
         [
             'X-Goog-Api-Key'   => $clave,
-            'X-Goog-FieldMask' => implode(',', [
-                'places.id',
-                'places.displayName',
-                'places.formattedAddress',
-                'places.websiteUri',
-                'places.nationalPhoneNumber',
-                'places.rating',
-                'places.userRatingCount',
-                'nextPageToken',
-            ]),
+            'X-Goog-FieldMask' => implode(',', campos($completo)),
         ]
     );
 
@@ -114,6 +145,31 @@ do {
             'resenas'     => $lugar['userRatingCount'] ?? null,
             'vertical'    => $vertical,
             'zona'        => $zona,
+            'estado_negocio' => $lugar['businessStatus'] ?? null,
+            'maps_url'    => $lugar['googleMapsUri'] ?? null,
+            'horario'     => $lugar['regularOpeningHours']['weekdayDescriptions'] ?? null,
+            // Referencias de foto, no imagenes: se descargan con bin/fotos.php
+            'fotos'       => array_map(
+                static fn(array $f): array => [
+                    'nombre'      => $f['name'] ?? null,
+                    'ancho'       => $f['widthPx'] ?? null,
+                    'alto'        => $f['heightPx'] ?? null,
+                    'atribucion'  => $f['authorAttributions'][0]['displayName'] ?? null,
+                ],
+                $lugar['photos'] ?? []
+            ),
+            // Hasta 5 resenas con texto. Sirven para dos cosas: citar la
+            // reputacion con datos y saber que valora su clientela, que es
+            // material directo para el copy de la landing.
+            'resenas_texto' => array_map(
+                static fn(array $r): array => [
+                    'autor'      => $r['authorAttribution']['displayName'] ?? null,
+                    'puntuacion' => $r['rating'] ?? null,
+                    'texto'      => $r['originalText']['text'] ?? ($r['text']['text'] ?? null),
+                    'fecha'      => $r['publishTime'] ?? null,
+                ],
+                $lugar['reviews'] ?? []
+            ),
             'descubierto' => date('c'),
             'hallazgos'   => [],
             'landing'     => null,
