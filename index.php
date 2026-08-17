@@ -524,8 +524,23 @@ foreach (ETIQUETAS as $e => $_) {
                 <?php foreach ($cont['email'] ?? [] as $mail): ?>
                   <a class="cont cont--mail" href="mailto:<?= h($mail) ?>"><b>Correo</b><span><?= h($mail) ?></span></a>
                 <?php endforeach; ?>
-                <?php foreach ($cont['redes'] ?? [] as $red => $url): ?>
-                  <a class="cont" href="<?= h($url) ?>" target="_blank" rel="noopener"><b><?= h($red) ?></b><span>perfil</span></a>
+                <?php
+                /* Cuando la "web" que devuelve Places es un perfil social, eso
+                   ya es una via de contacto: no tiene sentido esconderla bajo
+                   la etiqueta de directorio. Se fusiona con las que haya
+                   encontrado el extractor, sin repetir portal. */
+                $redes = $cont['redes'] ?? [];
+                if (($l['web_tipo'] ?? '') === 'directorio' && !empty($l['web'])) {
+                    foreach (['facebook','instagram','linkedin','tiktok','youtube','wa.me','whatsapp','doctoralia','eholo','topdoctors'] as $portal) {
+                        if (str_contains(mb_strtolower((string) $l['web']), $portal)) {
+                            $nombre = in_array($portal, ['wa.me','whatsapp'], true) ? 'whatsapp' : $portal;
+                            $redes[$nombre] ??= (string) $l['web'];
+                            break;
+                        }
+                    }
+                }
+                foreach ($redes as $red => $url): ?>
+                  <a class="cont cont--red" href="<?= h($url) ?>" target="_blank" rel="noopener"><b><?= h($red) ?></b><span>abrir perfil</span></a>
                 <?php endforeach; ?>
                 <?php if (!empty($l['maps_url'])): ?>
                   <a class="cont" href="<?= h((string) $l['maps_url']) ?>" target="_blank" rel="noopener"><b>Google Maps</b><span>ficha</span></a>

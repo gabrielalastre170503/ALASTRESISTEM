@@ -262,6 +262,17 @@ function contacto_de_web(?string $web, int $maxPaginas = 3): array
         return $vacio;
     }
 
+    /* Si la "web" es una ficha en un portal, los correos que aparezcan son del
+       portal, no del negocio: escribir a soporte@doctoralia.com no llega a
+       nadie. Se conserva la URL como red social, pero no se extraen correos. */
+    $esPortal = false;
+    foreach (PLACES_DIRECTORIOS as $portal) {
+        if (str_contains(mb_strtolower($web), $portal)) {
+            $esPortal = true;
+            break;
+        }
+    }
+
     $base = rtrim($web, '/');
     // La portada no siempre lleva el correo; la pagina de contacto casi siempre.
     $rutas = ['', '/contacto', '/contact', '/aviso-legal', '/legal'];
@@ -285,12 +296,19 @@ function contacto_de_web(?string $web, int $maxPaginas = 3): array
         $html       = $res['cuerpo'];
 
         // Correos: tanto en mailto: como sueltos en el texto.
-        if (preg_match_all('/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/i', $html, $m)) {
+        if (!$esPortal && preg_match_all('/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/i', $html, $m)) {
             foreach ($m[0] as $correo) {
                 $correo = mb_strtolower($correo);
-                // Fuera los de plantilla, imagenes y ejemplos.
-                if (preg_match('/\.(png|jpe?g|gif|webp|svg)$/i', $correo)) { continue; }
-                if (preg_match('/(example|dominio|tudominio|sentry|wixpress|@2x)/i', $correo)) { continue; }
+
+                // Nombres de archivo que el regex confunde con correos.
+                if (preg_match('/\.(png|jpe?g|gif|webp|svg|css|js)$/i', $correo)) { continue; }
+
+                // Marcadores de posicion de formularios y plantillas: "tu@email.com",
+                // "nombre@dominio.com" y demas. Aparecen como placeholder, no como
+                // contacto, y darlos por buenos es peor que no traer nada.
+                if (preg_match('/^(tu|tucorreo|nombre|correo|email|mail|usuario|user|ejemplo|example|info)@(email|dominio|tudominio|ejemplo|example|domain)\./i', $correo)) { continue; }
+                if (preg_match('/(example\.(com|org)|dominio\.com|tudominio|sentry|wixpress|@2x|@sentry)/i', $correo)) { continue; }
+
                 $emails[$correo] = true;
             }
         }

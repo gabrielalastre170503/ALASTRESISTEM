@@ -351,3 +351,6 @@ code{font-family:var(--mono);font-size:12px;background:var(--bg);border:1px soli
   .buscador{max-width:none}
   .barra__total{display:none}
 }
+.cont--red{background:var(--v-050);border-color:var(--v-300)}
+.cont--red b{color:var(--v-500)}
+.cont--red span{color:var(--v-700)}
