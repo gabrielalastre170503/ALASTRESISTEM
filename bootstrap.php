@@ -75,6 +75,7 @@ cargar_env(BASE_PATH . '/.env');
 
 require_once BASE_PATH . '/lib/http.php';
 require_once BASE_PATH . '/lib/pipeline.php';
+require_once BASE_PATH . '/lib/places.php';
 
 preparar_pipeline();
 
