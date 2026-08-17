@@ -35,13 +35,26 @@ $vertical   = $argumentos[0] ?? '';
 $zona       = $argumentos[1] ?? '';
 $maximo     = (int) ($opciones['max'] ?? 20);
 $completo   = isset($opciones['completo']);
+$soloSinWeb = isset($opciones['sin-web']);
+$minResenas = (int) ($opciones['min-resenas'] ?? 0);
+$maxResenas = (int) ($opciones['max-resenas'] ?? 0);
 
 if ($vertical === '' || $zona === '') {
     exit(
-        "Uso: php bin/scout.php \"<vertical>\" \"<zona>\" [--max=40] [--completo]\n\n" .
-        "  --completo  pide ademas resenas, fotos, horario y estado del negocio.\n" .
-        "              Sube el tramo de precio de la Places API: uselo en el lote\n" .
-        "              corto que vayas a trabajar, no en el barrido amplio.\n"
+        "Uso: php bin/scout.php \"<vertical>\" \"<zona>\" [opciones]\n\n" .
+        "  --max=N          cuantos guardar (por defecto 20)\n" .
+        "  --completo       pide ademas resenas, fotos, horario y estado.\n" .
+        "                   Sube el tramo de precio de la Places API: uselo en el\n" .
+        "                   lote corto que vayas a trabajar, no en el barrido amplio.\n" .
+        "  --sin-web        solo guarda los que no enlazan web en su ficha\n" .
+        "  --max-resenas=N  descarta los muy establecidos, que suelen tener agencia\n" .
+        "  --min-resenas=N  descarta los que casi no tienen recorrido\n\n" .
+        "Sobre la consulta: Google ordena por prominencia, asi que un termino\n" .
+        "generico devuelve primero facultades y clinicas grandes. Busca por barrio\n" .
+        "y por especialidad para llegar a las consultas pequenas, que son el lead\n" .
+        "que interesa:\n\n" .
+        "  php bin/scout.php \"psicologo\" \"Benimaclet, Valencia\" --sin-web\n" .
+        "  php bin/scout.php \"terapia de pareja\" \"Ruzafa, Valencia\" --sin-web\n"
     );
 }
 
@@ -83,6 +96,7 @@ $clave = env_obligatoria('GOOGLE_PLACES_API_KEY');
 
 $consulta      = "{$vertical} en {$zona}";
 $encontrados   = 0;
+$filtrados     = 0;
 $nuevos        = 0;
 $yaConocidos   = 0;
 $tokenSiguiente = null;
@@ -132,6 +146,24 @@ do {
         // Ya lo tenemos en alguna etapa, o esta en la lista de no-contactar.
         if (etapa_de($id) !== null) {
             $yaConocidos++;
+            continue;
+        }
+
+        /* Filtros de calidad. Google ordena por prominencia, asi que un termino
+           generico devuelve primero los mas establecidos: los que ya tienen web
+           y agencia. Sin filtrar, se paga por leads que no se van a usar. */
+        $resenas = (int) ($lugar['userRatingCount'] ?? 0);
+
+        if ($soloSinWeb && !empty($lugar['websiteUri'])) {
+            $filtrados++;
+            continue;
+        }
+        if ($minResenas > 0 && $resenas < $minResenas) {
+            $filtrados++;
+            continue;
+        }
+        if ($maxResenas > 0 && $resenas > $maxResenas) {
+            $filtrados++;
             continue;
         }
 
@@ -202,4 +234,10 @@ echo "\n";
 echo "Vistos:      {$encontrados}\n";
 echo "Nuevos:      {$nuevos}\n";
 echo "Ya conocidos: {$yaConocidos}\n";
+echo "Filtrados:    {$filtrados}\n";
+
+if ($nuevos === 0 && $filtrados > 0) {
+    echo "\nTodos los resultados cayeron por los filtros. Prueba por barrio y por\n";
+    echo "especialidad: los terminos genericos devuelven primero los mas grandes.\n";
+}
 echo "\nSiguiente paso: php bin/auditar.php\n";
